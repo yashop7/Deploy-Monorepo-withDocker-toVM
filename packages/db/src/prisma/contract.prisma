@@ -1,0 +1,16 @@
+// use prisma-8
+// Contract inferred from the live database schema. Edit as needed, then run `prisma contract emit`.
+model User {
+  id       String @id @default(uuid())
+  username String
+  password String
+  todo     Todo[]
+}
+
+model Todo {
+  todoId String  @id @default(uuid())
+  task   String
+  done   Boolean @default(false)
+  userId String
+  user   User    @relation(fields:[userId], references:[id])
+}
