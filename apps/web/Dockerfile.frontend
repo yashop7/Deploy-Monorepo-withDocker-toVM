@@ -1,0 +1,30 @@
+FROM node
+
+# Bun isn't in this image; copy the binary in so the workspace install works
+COPY --from=oven/bun:1.3.13 /usr/local/bin/bun /usr/local/bin/bun
+
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN bun install
+
+RUN bun run generate:db
+
+
+# WHEN YOU ARE IN THE ROOT DIR, THEN YOU CAN DO THIS
+
+# Either run using this, without using ""
+# CMD cd apps/web && bun run start
+
+# OR, THIS 
+# CMD ["sh", "-c", "cd apps/web && bun run start"]
+
+# WE CAN ALSO CHANGE OUT WORKDIRECTOR
+WORKDIR /usr/src/app/apps/web
+RUN bun run build
+
+EXPOSE 3000
+CMD ["bun", "run", "start"]
+
