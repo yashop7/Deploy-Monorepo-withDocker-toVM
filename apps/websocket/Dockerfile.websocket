@@ -1,9 +1,9 @@
-FROM oven/bun:latest
+FROM oven/bun:1
 
 WORKDIR /usr/src/app
 
 COPY package.json ./
-COPY bun.lockb ./
+COPY bun.lock ./
 COPY src ./
 
 RUN bun install

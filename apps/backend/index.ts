@@ -21,6 +21,9 @@ app.post("/user", (req, res) => {
         return;
     }
 
+    // we also have to check if there are already username present or not
+    // 
+
     db.orm.public.User.create({
         username,
         password
