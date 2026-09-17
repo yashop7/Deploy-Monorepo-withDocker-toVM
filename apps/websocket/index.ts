@@ -11,11 +11,14 @@ Bun.serve({
     },
     websocket: {
         async message(ws, message) {
+
+          const username = Math.random().toString();
+          const password = Math.random().toString();
             await db.orm.public.User.create({
-                    username: Math.random().toString(),
-                    password: Math.random().toString()
+                    username,
+                    password
             })
-            ws.send(message);
+            ws.send(`Username : ${username} and Password : ${password}`);
         },
     },
 });
