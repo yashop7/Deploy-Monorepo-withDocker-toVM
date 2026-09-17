@@ -109,7 +109,23 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "todo": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "userId"
+                  ]
+                },
+                "to": {
+                  "model": "Todo",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "id": {

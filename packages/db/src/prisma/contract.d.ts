@@ -306,7 +306,8 @@ export namespace Models {
     id: CodecTypes['pg/text@1']['output'];
     username: CodecTypes['pg/text@1']['output'];
     password: CodecTypes['pg/text@1']['output'];
-    readonly [RelationKeys]?: never;
+    todo: public_Todo[];
+    readonly [RelationKeys]?: 'todo';
   };
   export type public_Todo = {
     todoId: CodecTypes['pg/text@1']['output'];
@@ -492,7 +493,16 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
             };
-            readonly relations: Record<string, never>;
+            readonly relations: {
+              readonly todo: {
+                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'Todo' };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['id'];
+                  readonly targetFields: readonly ['userId'];
+                };
+              };
+            };
             readonly storage: {
               readonly table: 'user';
               readonly namespaceId: 'public';

@@ -16,6 +16,6 @@
     "prisma": "^8.0.0-rc.15"
   },
   "exports": {
-    "./client" : "./src/db.ts"
+    "./client": "./src/prisma/db.ts"
   }
 }
