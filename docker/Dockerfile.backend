@@ -9,7 +9,6 @@ COPY ./bun.lock ./bun.lock
 COPY ./turbo.json ./turbo.json 
 COPY ./apps/backend ./apps/backend 
 
-
 RUN bun install
 
 RUN bun run generate:db

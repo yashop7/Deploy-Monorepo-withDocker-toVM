@@ -8,7 +8,7 @@ ARG DATABASE_URL
 
 #COPY PART
 COPY ./package.json ./package.json
-COPY ./packages/db ./packages/db  
+COPY ./packages ./packages  
 COPY ./bun.lock ./bun.lock 
 COPY ./turbo.json ./turbo.json 
 COPY ./apps/web ./apps/web 
@@ -27,7 +27,9 @@ RUN bun run generate:db
 
 # WE CAN ALSO CHANGE OUT WORKDIRECTOR
 WORKDIR /usr/src/app/apps/web
-RUN DATAVBASE_URL=${DATABASE_URL} bun run build
+
+RUN DATABASE_URL=${DATABASE_URL} bun run build
 
 EXPOSE 3000
+
 CMD ["bun", "run", "start"]
