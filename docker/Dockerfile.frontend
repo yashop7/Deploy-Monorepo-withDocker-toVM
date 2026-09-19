@@ -2,6 +2,8 @@ FROM node:24-slim
 
 # Bun isn't in this image; copy the binary in so the workspace install works
 COPY --from=oven/bun:1.3.13 /usr/local/bin/bun /usr/local/bin/bun
+# Creates a symbolic link (shortcut) named bunx that points to the bun executable.
+RUN ln -s /usr/local/bin/bun /usr/local/bin/bunx
 
 WORKDIR /usr/src/app
 ARG DATABASE_URL
@@ -12,6 +14,7 @@ COPY ./packages ./packages
 COPY ./bun.lock ./bun.lock 
 COPY ./turbo.json ./turbo.json 
 COPY ./apps/web ./apps/web 
+
 
 RUN bun install
 
@@ -26,10 +29,12 @@ RUN bun run generate:db
 # CMD ["sh", "-c", "cd apps/web && bun run start"]
 
 # WE CAN ALSO CHANGE OUT WORKDIRECTOR
-WORKDIR /usr/src/app/apps/web
+# WORKDIR /usr/src/app/apps/web
 
-RUN DATABASE_URL=${DATABASE_URL} bun run build
+# RUN DATABASE_URL=${DATABASE_URL} bun run build
 
 EXPOSE 3000
 
-CMD ["bun", "run", "start"]
+CMD ["sh", "-c", "bun run build && bun run start"]
+
+# DATABASE_URL=postgresql://user:password@localhost:5432/mydb bun run build
