@@ -1,0 +1,65 @@
+# # Writing Docker compose from Scratch
+# # Note: The "version" key is obsolete in the modern Compose Specification. 
+# # You can start directly with the top-level keys.
+
+# services:
+#   # 1. Database Service
+#   database:
+#     image: postgres:16-alpine
+#     container_name: app_db
+#     environment:
+#       POSTGRES_USER: user
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: mydb
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - volume-db:/var/lib/postgresql/data
+#     networks:
+#       - backend_net
+#     restart: unless-stopped
+
+#   # 2. Backend API Service
+#   backend:
+#     build:
+#       context: ./docker/Dockerfile.backend
+#       dockerfile: Dockerfile
+#     container_name: app_api
+#     environment:
+#       DATABASE_URL: postgresql://user:password@localhost:5432/mydb
+#       NODE_ENV: production
+#     ports:
+#       - "8080:8080"
+#     volumes:
+#       - ./backend:/usr/src/app
+#     depends_on:
+#       database:
+#         condition: service_healthy
+#     networks:
+#       - backend_net
+#       - frontend_net
+#     restart: always
+
+#   # 3. Frontend Service
+#   frontend:
+#     image: nginx:alpine
+#     container_name: app_frontend
+#     ports:
+#       - "80:80"
+#     volumes:
+#       - ./frontend/dist:/usr/share/nginx/html
+#     depends_on:
+#       - api
+#     networks:
+#       - frontend_net
+
+# # Named Networks for isolation
+# networks:
+#   frontend_net:
+#     driver: bridge
+#   backend_net:
+#     driver: bridge
+
+# # Named Volumes for permanent data storage
+# volumes:
+#   volume-db:

@@ -1,4 +1,3 @@
-"use client"
 import { db } from "db/client";
 
 export default async function Home() {
